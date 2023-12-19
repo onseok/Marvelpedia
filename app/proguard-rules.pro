@@ -19,3 +19,25 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# AndroidX + support library
+-dontwarn android.support.**
+-dontwarn androidx.**
+
+# Dagger2
+-dontwarn com.google.errorprone.annotations.*
+
+# For kotlin-reflect
+-dontwarn org.jetbrains.annotations.**
+-keep class kotlin.Metadata { *; }
+
+# For kotlinx.serialization
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class soup.movie.**$$serializer { *; }
+-keepclassmembers class soup.movie.** {
+    *** Companion;
+}
+-keepclasseswithmembers class soup.movie.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
