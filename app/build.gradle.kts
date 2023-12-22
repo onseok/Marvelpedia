@@ -56,9 +56,11 @@ dependencies {
     implementation(projects.core.kotlin)
     implementation(projects.core.designsystem)
     implementation(projects.core.logger)
+    implementation(projects.data.repository.api)
     runtimeOnly(projects.data.network.impl)
     runtimeOnly(projects.core.imageloading.impl)
     runtimeOnly(projects.data.database.impl)
+    runtimeOnly(projects.data.repository.impl)
 
     implementation(libs.kotlin.stdlib)
     implementation(libs.coroutines.core)
