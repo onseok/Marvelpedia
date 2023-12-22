@@ -17,13 +17,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:kotlin"))
-    implementation(project(":core:logger"))
-    // TODO :data:model
-    implementation(project(":data:database:api"))
+    implementation(projects.core.kotlin)
+    implementation(projects.core.logger)
+    implementation(projects.data.model)
+    implementation(projects.data.database.api)
 
-    implementation(kotlin("stdlib"))
-    implementation(kotlin("serialization"))
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.serialization)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
 
