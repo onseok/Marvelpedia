@@ -73,3 +73,4 @@ private object ModuleDetector {
         return listFiles().orEmpty().filter { it.isDirectory }
     }
 }
+include(":feature:favorite")

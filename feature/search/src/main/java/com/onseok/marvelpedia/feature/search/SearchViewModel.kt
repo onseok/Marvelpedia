@@ -29,8 +29,17 @@ class SearchViewModel @Inject constructor(
     private val repository: MarvelRepository,
 ) : ViewModel() {
 
+    private val _selectedMainTab = MutableStateFlow(MainTabUiModel.Search)
+    val selectedMainTab: StateFlow<MainTabUiModel> = _selectedMainTab
+
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
+
+    fun onMainTabSelected(mainTab: MainTabUiModel) {
+        viewModelScope.launch {
+            _selectedMainTab.emit(mainTab)
+        }
+    }
 
     fun onQueryChanged(query: String) {
         viewModelScope.launch {

@@ -122,7 +122,6 @@ compose-ui = { module = "androidx.compose.ui:ui" }
 compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics" }
 
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
-accompanist-pagerIndicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 
 peekaboo-ui-android = { module = "io.github.team-preat:peekaboo-ui-android", version.ref = "peekaboo" }
 peekaboo-image-picker-android = { module = "io.github.team-preat:peekaboo-image-picker", version.ref = "peekaboo" }

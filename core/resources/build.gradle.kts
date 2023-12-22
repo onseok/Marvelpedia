@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.onseok.marvelpedia.resources"
+    namespace = "com.onseok.marvelpedia.core.resources"
 }

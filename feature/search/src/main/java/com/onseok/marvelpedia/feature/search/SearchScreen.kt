@@ -56,7 +56,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.onseok.marvelpedia.core.designsystem.icon.MarvelpediaIcons
 import com.onseok.marvelpedia.core.designsystem.theme.MarvelpediaTheme
-import com.onseok.marvelpedia.resources.R
+import com.onseok.marvelpedia.core.resources.R
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel) {
