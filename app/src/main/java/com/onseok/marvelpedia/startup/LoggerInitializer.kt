@@ -13,14 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.ui.theme
+package com.onseok.marvelpedia.startup
 
-import androidx.compose.ui.graphics.Color
+import android.content.Context
+import androidx.startup.Initializer
+import com.onseok.marvelpedia.buildconfig.BuildConfig
+import com.onseok.marvelpedia.log.DebugTree
+import com.onseok.marvelpedia.log.Logger
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+class LoggerInitializer : Initializer<Unit> {
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+    override fun create(context: Context) {
+        if (BuildConfig.DEBUG) {
+            Logger.plant(DebugTree())
+        }
+    }
+
+    override fun dependencies(): List<Class<out Initializer<*>>> {
+        return emptyList()
+    }
+}

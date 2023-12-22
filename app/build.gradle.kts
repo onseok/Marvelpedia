@@ -53,6 +53,11 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.kotlin)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.logger)
+    runtimeOnly(projects.core.imageloading.impl)
+
     implementation(libs.kotlin.stdlib)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)

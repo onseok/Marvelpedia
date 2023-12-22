@@ -7,10 +7,10 @@ androidGradlePlugin = "8.2.0"
 kotlin = "1.9.21"
 coroutines = "1.7.3"
 serialization = "1.6.2"
-ksp = "1.9.21-1.0.15"
+ksp = "1.9.21-1.0.16"
 
 # Dagger
-dagger = "2.49"
+dagger = "2.50"
 androidxhilt = "1.1.0"
 
 # AndroidX
@@ -51,6 +51,10 @@ dependencyGuard = "0.3.2"
 retrofit = "2.9.0"
 retrofit-serialization = "1.0.0"
 timber = "5.0.1"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+material = "1.11.0"
 
 [libraries]
 
@@ -161,6 +165,10 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 # Dependencies of the included build-logic
 android-pluginGradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 kotlin-pluginGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit115 = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -173,3 +181,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependencyGuard" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-perf" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
