@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.network.impl
+package com.onseok.marvelpedia.feature.search
 
-import com.onseok.marvelpedia.data.network.RemoteDataSource
-import javax.inject.Inject
+sealed interface SearchUiModel {
+    data object None : SearchUiModel
 
-class RemoteDataSourceImpl @Inject constructor() : RemoteDataSource
+    // TODO items
+    data class Success(
+        val hasNoItem: Boolean,
+    ) : SearchUiModel
+}

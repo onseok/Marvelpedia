@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.network.impl
+package com.onseok.marvelpedia.database.impl
 
-import com.onseok.marvelpedia.data.network.RemoteDataSource
+import com.onseok.marvelpedia.database.LocalDataSource
 import javax.inject.Inject
 
-class RemoteDataSourceImpl @Inject constructor() : RemoteDataSource
+class LocalDataSourceImpl @Inject constructor() : LocalDataSource
