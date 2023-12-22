@@ -1,0 +1,46 @@
+name: Build & Test
+
+on:
+  push:
+    branches:
+      - develop
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - develop
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Check dependencyGuard
+        run: ./gradlew dependencyGuard
+
+      - name: Check spotless
+        run: ./gradlew spotlessCheck --init-script gradle/init.gradle.kts --stacktrace
+
+      - name: Check lint
+        run: ./gradlew lintDebug --stacktrace
+
+      - name: Build all build type and flavor permutations
+        run: ./gradlew assemble --stacktrace
+
+      - name: Run local tests
+        run: ./gradlew testDebug --stacktrace

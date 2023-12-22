@@ -57,6 +57,7 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.logger)
     implementation(projects.data.repository.api)
+    implementation(projects.feature.search)
     runtimeOnly(projects.data.network.impl)
     runtimeOnly(projects.core.imageloading.impl)
     runtimeOnly(projects.data.database.impl)

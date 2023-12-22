@@ -13,9 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.network.impl
+package com.onseok.marvelpedia.database.impl.di
 
-import com.onseok.marvelpedia.data.network.RemoteDataSource
-import javax.inject.Inject
+import com.onseok.marvelpedia.database.LocalDataSource
+import com.onseok.marvelpedia.database.impl.LocalDataSourceImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class RemoteDataSourceImpl @Inject constructor() : RemoteDataSource
+@Module
+@InstallIn(SingletonComponent::class)
+interface DatabaseModule {
+
+    @Binds
+    @Singleton
+    fun provideLocalDataSource(
+        localDataSourceImpl: LocalDataSourceImpl,
+    ): LocalDataSource
+}
