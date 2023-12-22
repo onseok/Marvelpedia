@@ -13,8 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.database
+package com.onseok.marvelpedia.data.network.impl.di
 
-interface LocalDataSource {
-    // TODO Implement methods for local data operations
+import com.onseok.marvelpedia.data.network.RemoteDataSource
+import com.onseok.marvelpedia.data.network.impl.RemoteDataSourceImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface NetworkModule {
+
+    @Binds
+    @Singleton
+    fun bindRemoteDataSource(
+        remoteDataSourceImpl: RemoteDataSourceImpl,
+    ): RemoteDataSource
 }
