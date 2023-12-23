@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.feature.search
+package com.onseok.marvelpedia.feature.favorite
 
-enum class MainTabUiModel {
-    Search, Favorite
-}
+import androidx.lifecycle.ViewModel
+import com.onseok.marvelpedia.common.IoDispatcher
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Inject
+
+@HiltViewModel
+class FavoriteViewModel @Inject constructor(
+    @IoDispatcher ioDispatcher: CoroutineDispatcher,
+) : ViewModel()

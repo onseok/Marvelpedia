@@ -11,6 +11,7 @@ android {
 dependencies {
     implementation(projects.core.kotlin)
     implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
     implementation(projects.core.imageloading.api)
     implementation(projects.core.logger)
     implementation(projects.core.resources)

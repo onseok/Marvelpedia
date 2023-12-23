@@ -55,6 +55,7 @@ android {
 dependencies {
     implementation(projects.core.kotlin)
     implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
     implementation(projects.core.logger)
     implementation(projects.data.repository.api)
     implementation(projects.feature.search)

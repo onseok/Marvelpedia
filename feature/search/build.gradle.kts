@@ -9,8 +9,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.favorite)
     implementation(projects.core.kotlin)
     implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
     implementation(projects.core.resources)
     implementation(projects.data.repository.api)
     implementation(projects.data.model)
