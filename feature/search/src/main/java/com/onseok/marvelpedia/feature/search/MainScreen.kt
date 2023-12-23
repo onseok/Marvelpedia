@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.feature.search
+package com.onseok.marvelpedia.core.ui
 
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
@@ -33,9 +33,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.onseok.marvelpedia.core.designsystem.icon.MarvelpediaIcons
 import com.onseok.marvelpedia.core.designsystem.theme.MarvelpediaTheme
 import com.onseok.marvelpedia.core.resources.R
+import com.onseok.marvelpedia.feature.favorite.FavoriteScreen
 
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
@@ -104,7 +106,7 @@ fun MainScreen(viewModel: SearchViewModel) {
                     }
 
                     MainTabUiModel.Favorite -> {
-                        // TODO FavoriteScreen
+                        FavoriteScreen(viewModel = hiltViewModel())
                     }
                 }
             }

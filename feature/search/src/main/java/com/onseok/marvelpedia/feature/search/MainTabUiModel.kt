@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.feature.search
+package com.onseok.marvelpedia.core.ui
 
 enum class MainTabUiModel {
     Search, Favorite
