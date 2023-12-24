@@ -24,6 +24,24 @@ jobs:
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
+      - name: Touch local properties
+        run: touch local.properties
+
+      - name: Access API_BASE_URL
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+        run: echo "API_BASE_URL=\"API_BASE_URL\"" >> local.properties
+
+      - name: Access MARVEL_PUBLIC_KEY
+        env:
+          MARVEL_PUBLIC_KEY: ${{ secrets.MARVEL_PUBLIC_KEY }}
+        run: echo "MARVEL_PUBLIC_KEY=\"MARVEL_PUBLIC_KEY\"" >> local.properties
+
+      - name: Access MARVEL_PRIVATE_KEY
+        env:
+          MARVEL_PRIVATE_KEY: ${{ secrets.MARVEL_PRIVATE_KEY }}
+        run: echo "MARVEL_PRIVATE_KEY=\"MARVEL_PRIVATE_KEY\"" >> local.properties
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
