@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.data.network.api)
     implementation(projects.data.database.api)
     implementation(projects.data.repository.api)
+    implementation(projects.core.buildconfig)
 
     implementation(libs.kotlin.stdlib)
     implementation(libs.coroutines.core)

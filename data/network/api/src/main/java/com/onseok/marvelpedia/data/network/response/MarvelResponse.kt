@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.feature.search
+package com.onseok.marvelpedia.data.network.response
 
-import com.onseok.marvelpedia.model.MarvelHeroModel
+import kotlinx.serialization.Serializable
 
-sealed interface SearchUiModel {
-    data object None : SearchUiModel
-
-    data object Loading : SearchUiModel
-
-    data class Success(
-        val marvelHeroes: List<MarvelHeroModel>,
-        val hasNoItem: Boolean,
-    ) : SearchUiModel
-}
+@Serializable
+data class MarvelResponse(
+    val code: Int,
+    val status: String,
+    val copyright: String,
+    val attributionText: String,
+    val attributionHTML: String,
+    val etag: String,
+    val data: MarvelData,
+)

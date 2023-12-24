@@ -13,17 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.feature.search
+package com.onseok.marvelpedia.model
 
-import com.onseok.marvelpedia.model.MarvelHeroModel
-
-sealed interface SearchUiModel {
-    data object None : SearchUiModel
-
-    data object Loading : SearchUiModel
-
-    data class Success(
-        val marvelHeroes: List<MarvelHeroModel>,
-        val hasNoItem: Boolean,
-    ) : SearchUiModel
-}
+data class MarvelHeroModel(
+    val id: Int,
+    val name: String,
+    val thumbnailImageUrl: String,
+)

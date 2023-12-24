@@ -1,6 +1,7 @@
 plugins {
     id("marvelpedia.android.library")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    // https://github.com/Kotlin/kotlinx.serialization/issues?q=not+applied
+    kotlin("plugin.serialization")
 }
 
 android {

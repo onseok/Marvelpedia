@@ -19,8 +19,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.onseok.marvelpedia.data.repository.MarvelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +42,37 @@ class SearchViewModel @Inject constructor(
 
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
+
+    @OptIn(FlowPreview::class)
+    val uiModel: StateFlow<SearchUiModel> = _query
+        .debounce(300)
+        .map { it.trim() }
+        .distinctUntilChanged()
+        .flatMapLatest { query ->
+            flow {
+                if (query.length < 2) {
+                    emit(SearchUiModel.None)
+                } else {
+                    emit(SearchUiModel.Loading)
+                    try {
+                        val marvelHeroes = repository.searchMarvelHeroes(query)
+                        emit(
+                            SearchUiModel.Success(
+                                marvelHeroes = marvelHeroes,
+                                hasNoItem = marvelHeroes.isEmpty(),
+                            )
+                        )
+                    } catch (e: Exception) {
+                        emit(SearchUiModel.None)
+                    }
+                }
+            }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = SearchUiModel.None,
+            started = SharingStarted.WhileSubscribed(5_000),
+        )
 
     fun onMainTabSelected(mainTab: MainTabUiModel) {
         viewModelScope.launch {
