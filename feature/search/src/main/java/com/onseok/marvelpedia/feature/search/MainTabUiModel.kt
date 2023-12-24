@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.core.designsystem.icon
+package com.onseok.marvelpedia.feature.search
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.ViewModule
-import com.onseok.marvelpedia.core.designsystem.R
-
-object MarvelpediaIcons {
-    val Close = Icons.Rounded.Close
-    val ViewModule = Icons.Rounded.ViewModule
-    val AvdSearchSelected = R.drawable.avd_search_selected
-    val AvdFavoriteSelected = R.drawable.avd_favorite_selected
+enum class MainTabUiModel {
+    Search, Favorite
 }

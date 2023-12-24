@@ -21,10 +21,12 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import com.onseok.marvelpedia.core.designsystem.theme.MarvelpediaTheme
 import dagger.hilt.android.AndroidEntryPoint
+import com.onseok.marvelpedia.R
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Marvelpedia)
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {

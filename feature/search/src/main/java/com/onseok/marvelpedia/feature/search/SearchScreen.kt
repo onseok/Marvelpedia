@@ -15,14 +15,11 @@
  */
 package com.onseok.marvelpedia.feature.search
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -48,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -56,7 +52,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.onseok.marvelpedia.core.designsystem.icon.MarvelpediaIcons
 import com.onseok.marvelpedia.core.designsystem.theme.MarvelpediaTheme
-import com.onseok.marvelpedia.resources.R
+import com.onseok.marvelpedia.core.resources.R
+import com.onseok.marvelpedia.core.ui.NoMarvelItems
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel) {
@@ -132,26 +129,5 @@ fun SearchScreen(viewModel: SearchViewModel) {
         ) {
             NoMarvelItems(modifier = Modifier.align(Alignment.Center))
         }
-    }
-}
-
-@Composable
-private fun NoMarvelItems(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Image(
-            imageVector = MarvelpediaIcons.ViewModule,
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(color = MarvelpediaTheme.colors.onBackground),
-            modifier = Modifier.size(72.dp),
-        )
-        Text(
-            text = stringResource(R.string.no_marvels_description),
-            color = MarvelpediaTheme.colors.onBackground,
-        )
     }
 }

@@ -17,15 +17,20 @@ package com.onseok.marvelpedia.ui.main
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.onseok.marvelpedia.feature.search.SearchScreen
+import com.onseok.marvelpedia.feature.search.MainScreen
 import com.onseok.marvelpedia.feature.search.SearchViewModel
 
 private enum class Screen(val route: String) {
-    Search("search"),
-    Favorite("favorite")
+    Main("main"),
+    Detail("detail")
+}
+
+private fun NavController.navigateToDetail(marvelId: String) {
+    navigate(route = Screen.Detail.route + "/" + marvelId)
 }
 
 @Composable
@@ -33,12 +38,11 @@ fun MainNavGraph() {
     val navController = rememberNavController()
     NavHost(
         navController,
-        startDestination = Screen.Search.route,
+        startDestination = Screen.Main.route,
     ) {
-        composable(Screen.Search.route) {
+        composable(Screen.Main.route) {
             val viewModel = hiltViewModel<SearchViewModel>()
-            SearchScreen(viewModel = viewModel)
+            MainScreen(viewModel = viewModel)
         }
-        // TODO FavoriteScreen
     }
 }
