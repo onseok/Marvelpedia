@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.repository
+package com.onseok.marvelpedia.data.network.response
 
-import com.onseok.marvelpedia.model.MarvelHeroModel
+import kotlinx.serialization.Serializable
 
-interface MarvelRepository {
-    suspend fun searchMarvelHeroes(
-        query: String,
-        page: Int
-    ): List<MarvelHeroModel>
-}
+@Serializable
+data class MarvelResponse(
+    val code: Int,
+    val status: String,
+    val copyright: String,
+    val attributionText: String,
+    val attributionHTML: String,
+    val etag: String,
+    val data: MarvelData,
+)

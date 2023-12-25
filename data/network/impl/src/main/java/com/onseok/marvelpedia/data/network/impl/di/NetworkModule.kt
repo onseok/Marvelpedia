@@ -15,12 +15,22 @@
  */
 package com.onseok.marvelpedia.data.network.impl.di
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.onseok.marvelpedia.buildconfig.BuildConfig
 import com.onseok.marvelpedia.data.network.RemoteDataSource
+import com.onseok.marvelpedia.data.network.impl.MarvelApiService
 import com.onseok.marvelpedia.data.network.impl.RemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -32,4 +42,44 @@ interface NetworkModule {
     fun bindRemoteDataSource(
         remoteDataSourceImpl: RemoteDataSourceImpl,
     ): RemoteDataSource
+
+    companion object {
+
+        private val json = Json {
+            isLenient = true
+            ignoreUnknownKeys = true
+        }
+
+        @Provides
+        @Singleton
+        internal fun provideMovieApiService(
+            okHttpClient: OkHttpClient,
+        ): MarvelApiService {
+            return Retrofit.Builder()
+                .baseUrl(BuildConfig.API_BASE_URL)
+                .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+                .client(okHttpClient)
+                .build()
+                .create(MarvelApiService::class.java)
+        }
+
+        @Provides
+        @Singleton
+        fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .connectTimeout(10000, TimeUnit.SECONDS)
+                .writeTimeout(10000, TimeUnit.SECONDS)
+                .readTimeout(30000, TimeUnit.SECONDS)
+                .build()
+        }
+
+        @Provides
+        @Singleton
+        internal fun provideInterceptor(): HttpLoggingInterceptor {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+            return interceptor
+        }
+    }
 }

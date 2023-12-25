@@ -15,6 +15,13 @@
  */
 package com.onseok.marvelpedia.data.network
 
+import com.onseok.marvelpedia.data.network.response.MarvelResponse
+
 interface RemoteDataSource {
-    // TODO
+    suspend fun getMarvelHeroes(
+        timestamp: String,
+        hash: String,
+        nameStartsWith: String,
+        page: Int,
+    ): MarvelResponse
 }

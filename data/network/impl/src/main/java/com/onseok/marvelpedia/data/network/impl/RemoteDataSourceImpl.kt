@@ -16,6 +16,23 @@
 package com.onseok.marvelpedia.data.network.impl
 
 import com.onseok.marvelpedia.data.network.RemoteDataSource
+import com.onseok.marvelpedia.data.network.response.MarvelResponse
 import javax.inject.Inject
 
-class RemoteDataSourceImpl @Inject constructor() : RemoteDataSource
+class RemoteDataSourceImpl @Inject constructor(
+    private val apiService: MarvelApiService,
+) : RemoteDataSource {
+    override suspend fun getMarvelHeroes(
+        timestamp: String,
+        hash: String,
+        nameStartsWith: String,
+        page: Int
+    ): MarvelResponse {
+        return apiService.getMarvelHeroes(
+            ts = timestamp,
+            hash = hash,
+            nameStartsWith = nameStartsWith,
+            page = page
+        )
+    }
+}

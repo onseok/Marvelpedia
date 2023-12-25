@@ -15,4 +15,21 @@
  */
 package com.onseok.marvelpedia.data.network.impl
 
-interface MarvelApiService
+import com.onseok.marvelpedia.buildconfig.BuildConfig
+import com.onseok.marvelpedia.data.network.response.MarvelResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface MarvelApiService {
+
+    @GET("characters")
+    suspend fun getMarvelHeroes(
+        @Query("ts") ts: String,
+        @Query("hash") hash: String,
+        @Query("apikey") apikey: String = BuildConfig.MARVEL_PUBLIC_KEY,
+        @Query("nameStartsWith") nameStartsWith: String,
+        @Query("orderBy") orderBy: String = "name",
+        @Query("limit") limit: Int = 10,
+        @Query("offset") page: Int
+    ): MarvelResponse
+}

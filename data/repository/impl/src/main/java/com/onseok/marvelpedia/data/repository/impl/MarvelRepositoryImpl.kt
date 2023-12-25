@@ -15,15 +15,38 @@
  */
 package com.onseok.marvelpedia.data.repository.impl
 
+import com.onseok.marvelpedia.buildconfig.BuildConfig
 import com.onseok.marvelpedia.common.IoDispatcher
 import com.onseok.marvelpedia.data.network.RemoteDataSource
+import com.onseok.marvelpedia.data.network.response.asModel
+import com.onseok.marvelpedia.data.network.util.MarvelApiUtils
 import com.onseok.marvelpedia.data.repository.MarvelRepository
 import com.onseok.marvelpedia.database.LocalDataSource
+import com.onseok.marvelpedia.model.MarvelHeroModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MarvelRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-) : MarvelRepository
+) : MarvelRepository {
+    override suspend fun searchMarvelHeroes(query: String, page: Int): List<MarvelHeroModel> {
+        return withContext(ioDispatcher) {
+            val ts = MarvelApiUtils.generateCurrentTimestamp()
+            val hash = MarvelApiUtils.generateHash(
+                ts,
+                BuildConfig.MARVEL_PRIVATE_KEY,
+                BuildConfig.MARVEL_PUBLIC_KEY,
+            )
+
+            remoteDataSource.getMarvelHeroes(
+                timestamp = ts,
+                hash = hash,
+                nameStartsWith = query,
+                page = page,
+            ).data.results.map { it.asModel() }
+        }
+    }
+}

@@ -2,11 +2,8 @@ import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import com.onseok.marvelpedia.buildlogic.compileOnly
 import com.onseok.marvelpedia.buildlogic.configureAndroid
 import com.onseok.marvelpedia.buildlogic.configureKotlin
-import com.onseok.marvelpedia.buildlogic.project
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -28,10 +25,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
             configureAndroid()
             configureKotlin()
-
-            dependencies {
-                compileOnly(project(path = ":core:buildconfig-stub"))
-            }
         }
     }
 }

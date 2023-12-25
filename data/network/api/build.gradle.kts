@@ -1,6 +1,7 @@
 plugins {
     id("marvelpedia.android.library")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    // https://github.com/Kotlin/kotlinx.serialization/issues?q=not+applied
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -13,6 +14,7 @@ dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.androidx.core)
 }

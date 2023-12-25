@@ -15,11 +15,15 @@
  */
 package com.onseok.marvelpedia.feature.search
 
+import com.onseok.marvelpedia.model.MarvelHeroModel
+
 sealed interface SearchUiModel {
     data object None : SearchUiModel
-
-    // TODO items
+    data object Loading : SearchUiModel
+    data object Paginating : SearchUiModel
     data class Success(
+        val marvelHeroes: List<MarvelHeroModel>,
         val hasNoItem: Boolean,
+        val hasMoreItems: Boolean,
     ) : SearchUiModel
 }

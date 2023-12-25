@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.repository
+package com.onseok.marvelpedia.model
 
-import com.onseok.marvelpedia.model.MarvelHeroModel
-
-interface MarvelRepository {
-    suspend fun searchMarvelHeroes(
-        query: String,
-        page: Int
-    ): List<MarvelHeroModel>
-}
+data class MarvelHeroModel(
+    val id: Int,
+    val name: String,
+    val thumbnailImageUrl: String,
+)
