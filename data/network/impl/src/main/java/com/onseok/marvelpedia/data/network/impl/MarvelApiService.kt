@@ -28,6 +28,8 @@ interface MarvelApiService {
         @Query("hash") hash: String,
         @Query("apikey") apikey: String = BuildConfig.MARVEL_PUBLIC_KEY,
         @Query("nameStartsWith") nameStartsWith: String,
-        @Query("orderBy") orderBy: String = "name"
+        @Query("orderBy") orderBy: String = "name",
+        @Query("limit") limit: Int = 10,
+        @Query("offset") page: Int
     ): MarvelResponse
 }

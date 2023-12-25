@@ -18,5 +18,8 @@ package com.onseok.marvelpedia.data.repository
 import com.onseok.marvelpedia.model.MarvelHeroModel
 
 interface MarvelRepository {
-    suspend fun searchMarvelHeroes(query: String): List<MarvelHeroModel>
+    suspend fun searchMarvelHeroes(
+        query: String,
+        page: Int
+    ): List<MarvelHeroModel>
 }

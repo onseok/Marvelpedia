@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -49,6 +50,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -69,9 +71,27 @@ import com.onseok.marvelpedia.core.imageloading.AsyncImage
 import com.onseok.marvelpedia.core.resources.R
 import com.onseok.marvelpedia.core.ui.NoMarvelItems
 import com.onseok.marvelpedia.model.MarvelHeroModel
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel) {
+    val state = rememberLazyGridState()
+    val uiModel by viewModel.uiModel.collectAsState()
+
+    LaunchedEffect(state) {
+        snapshotFlow { state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1 }
+            .distinctUntilChanged()
+            .collect { lastIndex ->
+                if (lastIndex == state.layoutInfo.totalItemsCount - 1) {
+                    (uiModel as? SearchUiModel.Success)?.let {
+                        if (it.hasMoreItems) {
+                            viewModel.loadNextPage()
+                        }
+                    }
+                }
+            }
+    }
+
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = {
@@ -139,7 +159,6 @@ fun SearchScreen(viewModel: SearchViewModel) {
             }
         },
     ) { paddingValues ->
-        val uiModel by viewModel.uiModel.collectAsState()
         when (uiModel) {
             is SearchUiModel.None -> {
                 Box(
@@ -153,6 +172,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
 
             is SearchUiModel.Success -> {
                 val model = uiModel as SearchUiModel.Success
+                val marvelHeroes by viewModel.marvelHeroes.collectAsState()
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -162,8 +182,10 @@ fun SearchScreen(viewModel: SearchViewModel) {
                         NoMarvelItems(modifier = Modifier.align(Alignment.Center))
                     } else {
                         MarvelList(
-                            marvelHeroes = model.marvelHeroes,
+                            marvelHeroes = marvelHeroes,
                             onItemClick = {},
+                            state = state,
+                            uiModel = uiModel
                         )
                     }
                 }
@@ -181,6 +203,22 @@ fun SearchScreen(viewModel: SearchViewModel) {
                     )
                 }
             }
+
+            is SearchUiModel.Paginating -> {
+                val marvelHeroes by viewModel.marvelHeroes.collectAsState()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                ) {
+                    MarvelList(
+                        marvelHeroes = marvelHeroes,
+                        onItemClick = {},
+                        state = state,
+                        uiModel = uiModel,
+                    )
+                }
+            }
         }
     }
 }
@@ -191,7 +229,8 @@ fun MarvelList(
     onItemClick: (MarvelHeroModel) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(8.dp),
-    state: LazyGridState = rememberLazyGridState(),
+    state: LazyGridState,
+    uiModel: SearchUiModel,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -209,6 +248,22 @@ fun MarvelList(
                 onClick = onItemClick,
                 modifier = Modifier.padding(4.dp),
             )
+        }
+
+        if (uiModel is SearchUiModel.Paginating) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MarvelpediaTheme.colors.onBackground
+                    )
+                }
+            }
         }
     }
 }

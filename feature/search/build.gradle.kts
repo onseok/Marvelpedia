@@ -17,6 +17,7 @@ dependencies {
     implementation(projects.data.repository.api)
     implementation(projects.data.model)
     implementation(projects.core.imageloading.api)
+    implementation(projects.core.logger)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.hilt.navigation.compose)

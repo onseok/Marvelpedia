@@ -21,6 +21,7 @@ interface RemoteDataSource {
     suspend fun getMarvelHeroes(
         timestamp: String,
         hash: String,
-        nameStartsWith: String
+        nameStartsWith: String,
+        page: Int,
     ): MarvelResponse
 }

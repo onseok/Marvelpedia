@@ -26,11 +26,13 @@ class RemoteDataSourceImpl @Inject constructor(
         timestamp: String,
         hash: String,
         nameStartsWith: String,
+        page: Int
     ): MarvelResponse {
         return apiService.getMarvelHeroes(
             ts = timestamp,
             hash = hash,
             nameStartsWith = nameStartsWith,
+            page = page
         )
     }
 }

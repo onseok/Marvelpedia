@@ -32,7 +32,7 @@ class MarvelRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : MarvelRepository {
-    override suspend fun searchMarvelHeroes(query: String): List<MarvelHeroModel> {
+    override suspend fun searchMarvelHeroes(query: String, page: Int): List<MarvelHeroModel> {
         return withContext(ioDispatcher) {
             val ts = MarvelApiUtils.generateCurrentTimestamp()
             val hash = MarvelApiUtils.generateHash(
@@ -45,6 +45,7 @@ class MarvelRepositoryImpl @Inject constructor(
                 timestamp = ts,
                 hash = hash,
                 nameStartsWith = query,
+                page = page,
             ).data.results.map { it.asModel() }
         }
     }
