@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.repository
+package com.onseok.marvelpedia.database.impl.mapper
 
+import com.onseok.marvelpedia.database.impl.entity.MarvelHeroEntity
 import com.onseok.marvelpedia.model.MarvelHeroModel
-import kotlinx.coroutines.flow.Flow
 
-interface MarvelRepository {
-    suspend fun searchMarvelHeroes(
-        query: String,
-        page: Int
-    ): List<MarvelHeroModel>
-
-    fun getFavoriteMarvelHeroes(): Flow<List<MarvelHeroModel>>
-    suspend fun addFavoriteMarvelHero(marvelHero: MarvelHeroModel)
-    suspend fun removeFavoriteMarvelHero(marvelHeroId: Int)
-    suspend fun isFavoriteMarvelHero(marvelHeroId: Int): Boolean
+fun MarvelHeroModel.toMarvelHeroEntity(): MarvelHeroEntity {
+    return MarvelHeroEntity(
+        marvelHeroId = id,
+        name = name,
+        thumbnailImageUrl = thumbnailImageUrl
+    )
 }

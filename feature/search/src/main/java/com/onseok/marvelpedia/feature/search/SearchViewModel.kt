@@ -18,7 +18,6 @@ package com.onseok.marvelpedia.feature.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.onseok.marvelpedia.data.repository.MarvelRepository
-import com.onseok.marvelpedia.log.Logger
 import com.onseok.marvelpedia.model.MarvelHeroModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -86,15 +85,17 @@ class SearchViewModel @Inject constructor(
                     try {
                         val newHeroes = repository.searchMarvelHeroes(query, (page - 1) * PAGE_SIZE + 1)
                         val updatedList = _marvelHeroes.value + newHeroes
-                        _marvelHeroes.value = updatedList
+                        _marvelHeroes.value = updatedList.map {
+                            it.copy(isFavorite = repository.isFavoriteMarvelHero(it.id))
+                        }
 
                         val hasMore = newHeroes.size >= PAGE_SIZE
                         emit(
                             SearchUiModel.Success(
-                                updatedList,
+                                marvelHeroes =  _marvelHeroes.value,
                                 hasNoItem = updatedList.isEmpty(),
                                 hasMoreItems = hasMore,
-                            )
+                            ),
                         )
                     } catch (e: Exception) {
                         emit(SearchUiModel.None)
@@ -105,7 +106,7 @@ class SearchViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             initialValue = SearchUiModel.None,
-            started = SharingStarted.WhileSubscribed(5_000)
+            started = SharingStarted.WhileSubscribed(5_000),
         )
 
     fun loadNextPage() {
@@ -124,6 +125,24 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _query.emit(query)
             _currentPage.emit(START_PAGE_INDEX)
+        }
+    }
+
+    fun onMarvelItemClick(marvelHeroModel: MarvelHeroModel) {
+        viewModelScope.launch {
+            val isFavorite = repository.isFavoriteMarvelHero(marvelHeroModel.id)
+            if (!isFavorite) {
+                repository.addFavoriteMarvelHero(marvelHeroModel)
+            } else {
+                repository.removeFavoriteMarvelHero(marvelHeroModel.id)
+            }
+            _marvelHeroes.value = _marvelHeroes.value.map { hero ->
+                if (hero.id == marvelHeroModel.id) {
+                    hero.copy(isFavorite = !isFavorite)
+                } else {
+                    hero
+                }
+            }
         }
     }
 }

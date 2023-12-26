@@ -16,6 +16,36 @@
 package com.onseok.marvelpedia.database.impl
 
 import com.onseok.marvelpedia.database.LocalDataSource
+import com.onseok.marvelpedia.database.impl.dao.MarvelHeroDao
+import com.onseok.marvelpedia.database.impl.mapper.toMarvelHero
+import com.onseok.marvelpedia.database.impl.mapper.toMarvelHeroEntity
+import com.onseok.marvelpedia.model.MarvelHeroModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LocalDataSourceImpl @Inject constructor() : LocalDataSource
+class LocalDataSourceImpl @Inject constructor(
+    private val marvelHeroDao: MarvelHeroDao,
+) : LocalDataSource {
+    override suspend fun addFavoriteMarvelHero(marvelHero: MarvelHeroModel) {
+        val currentFavoritesCount = marvelHeroDao.getFavoriteMarvelHeroesCount()
+        if (currentFavoritesCount >= 5) {
+            marvelHeroDao.deleteOldestFavoriteMarvelHero()
+        }
+        marvelHeroDao.insertFavoriteMarvelHero(marvelHero.toMarvelHeroEntity())
+    }
+
+    override suspend fun removeFavoriteMarvelHero(marvelHeroId: Int) {
+        marvelHeroDao.deleteFavoriteMarvelHero(marvelHeroId)
+    }
+
+    override fun getFavoriteMarvelHeroes(): Flow<List<MarvelHeroModel>> {
+        return marvelHeroDao.getFavoriteMarvelHeroes().map {
+            it.map { marvelHeroEntity -> marvelHeroEntity.toMarvelHero() }
+        }
+    }
+
+    override suspend fun isFavoriteMarvelHero(marvelHeroId: Int): Boolean {
+        return marvelHeroDao.isFavoriteMarvelHero(marvelHeroId)
+    }
+}

@@ -24,6 +24,7 @@ import com.onseok.marvelpedia.data.repository.MarvelRepository
 import com.onseok.marvelpedia.database.LocalDataSource
 import com.onseok.marvelpedia.model.MarvelHeroModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -48,5 +49,21 @@ class MarvelRepositoryImpl @Inject constructor(
                 page = page,
             ).data.results.map { it.asModel() }
         }
+    }
+
+    override fun getFavoriteMarvelHeroes(): Flow<List<MarvelHeroModel>> {
+        return localDataSource.getFavoriteMarvelHeroes()
+    }
+
+    override suspend fun addFavoriteMarvelHero(marvelHero: MarvelHeroModel) {
+        localDataSource.addFavoriteMarvelHero(marvelHero)
+    }
+
+    override suspend fun removeFavoriteMarvelHero(marvelHeroId: Int) {
+        localDataSource.removeFavoriteMarvelHero(marvelHeroId)
+    }
+
+    override suspend fun isFavoriteMarvelHero(marvelHeroId: Int): Boolean {
+        return localDataSource.isFavoriteMarvelHero(marvelHeroId)
     }
 }

@@ -15,11 +15,17 @@
  */
 package com.onseok.marvelpedia.database.impl.di
 
+import android.content.Context
+import androidx.room.Room
 import com.onseok.marvelpedia.database.LocalDataSource
 import com.onseok.marvelpedia.database.impl.LocalDataSourceImpl
+import com.onseok.marvelpedia.database.impl.MarvelDatabase
+import com.onseok.marvelpedia.database.impl.dao.MarvelHeroDao
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -32,4 +38,25 @@ interface DatabaseModule {
     fun provideLocalDataSource(
         localDataSourceImpl: LocalDataSourceImpl,
     ): LocalDataSource
+
+    companion object {
+
+        @Provides
+        @Singleton
+        fun provideMarvelHeroDao(
+            marvelDatabase: MarvelDatabase,
+        ): MarvelHeroDao {
+            return marvelDatabase.marvelHeroDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideMarvelDatabase(
+            @ApplicationContext context: Context,
+        ): MarvelDatabase {
+            return Room
+                .databaseBuilder(context, MarvelDatabase::class.java, "marvelpeida.db")
+                .build()
+        }
+    }
 }

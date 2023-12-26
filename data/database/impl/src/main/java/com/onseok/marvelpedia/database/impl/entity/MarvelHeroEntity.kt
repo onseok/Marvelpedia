@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.repository
+package com.onseok.marvelpedia.database.impl.entity
 
-import com.onseok.marvelpedia.model.MarvelHeroModel
-import kotlinx.coroutines.flow.Flow
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.datetime.Clock
 
-interface MarvelRepository {
-    suspend fun searchMarvelHeroes(
-        query: String,
-        page: Int
-    ): List<MarvelHeroModel>
-
-    fun getFavoriteMarvelHeroes(): Flow<List<MarvelHeroModel>>
-    suspend fun addFavoriteMarvelHero(marvelHero: MarvelHeroModel)
-    suspend fun removeFavoriteMarvelHero(marvelHeroId: Int)
-    suspend fun isFavoriteMarvelHero(marvelHeroId: Int): Boolean
-}
+@Entity(tableName = "marvel_hero")
+data class MarvelHeroEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    val marvelHeroId: Int,
+    @ColumnInfo(name = "name")
+    val name: String,
+    @ColumnInfo(name = "thumbnail_image_url")
+    val thumbnailImageUrl: String,
+    @ColumnInfo(name = "added_at")
+    val addedAt: Long = Clock.System.now().epochSeconds
+)

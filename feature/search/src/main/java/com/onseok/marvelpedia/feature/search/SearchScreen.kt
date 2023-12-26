@@ -15,6 +15,7 @@
  */
 package com.onseok.marvelpedia.feature.search
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -56,6 +57,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -69,6 +71,7 @@ import com.onseok.marvelpedia.core.designsystem.icon.MarvelpediaIcons
 import com.onseok.marvelpedia.core.designsystem.theme.MarvelpediaTheme
 import com.onseok.marvelpedia.core.imageloading.AsyncImage
 import com.onseok.marvelpedia.core.resources.R
+import com.onseok.marvelpedia.core.ui.MarvelItem
 import com.onseok.marvelpedia.core.ui.NoMarvelItems
 import com.onseok.marvelpedia.model.MarvelHeroModel
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -183,9 +186,11 @@ fun SearchScreen(viewModel: SearchViewModel) {
                     } else {
                         MarvelList(
                             marvelHeroes = marvelHeroes,
-                            onItemClick = {},
+                            onItemClick = {
+                                viewModel.onMarvelItemClick(it)
+                            },
                             state = state,
-                            uiModel = uiModel
+                            uiModel = uiModel,
                         )
                     }
                 }
@@ -213,7 +218,9 @@ fun SearchScreen(viewModel: SearchViewModel) {
                 ) {
                     MarvelList(
                         marvelHeroes = marvelHeroes,
-                        onItemClick = {},
+                        onItemClick = {
+                            viewModel.onMarvelItemClick(it)
+                        },
                         state = state,
                         uiModel = uiModel,
                     )
@@ -256,55 +263,14 @@ fun MarvelList(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
-                        color = MarvelpediaTheme.colors.onBackground
+                        color = MarvelpediaTheme.colors.onBackground,
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun MarvelItem(
-    marvelHero: MarvelHeroModel,
-    onClick: (MarvelHeroModel) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        modifier = modifier,
-        color = MarvelpediaTheme.colors.onSurface.copy(alpha = 0.1f),
-        shape = MarvelpediaTheme.shapes.medium,
-        elevation = 0.dp,
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomEnd,
-        ) {
-            AsyncImage(
-                model = marvelHero.thumbnailImageUrl,
-                contentDescription = marvelHero.name,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .aspectRatio(27 / 40f)
-                    .clickable(
-                        onClick = { onClick(marvelHero) },
-                    ),
-                contentScale = ContentScale.Crop,
-            )
-            Text(
-                text = marvelHero.name,
-                modifier = Modifier.padding(8.dp),
-                style = TextStyle(
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold,
-                ),
-                overflow = TextOverflow.Ellipsis,
-                softWrap = false,
-            )
         }
     }
 }

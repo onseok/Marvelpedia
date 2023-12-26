@@ -19,4 +19,6 @@ data class MarvelHeroModel(
     val id: Int,
     val name: String,
     val thumbnailImageUrl: String,
+    val isFavorite: Boolean = false,
+    val addedAt: Long
 )
