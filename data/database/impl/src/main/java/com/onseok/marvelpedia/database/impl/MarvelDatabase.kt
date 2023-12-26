@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.onseok.marvelpedia.data.repository
+package com.onseok.marvelpedia.database.impl
 
-import com.onseok.marvelpedia.model.MarvelHeroModel
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.onseok.marvelpedia.database.impl.dao.MarvelHeroDao
+import com.onseok.marvelpedia.database.impl.entity.MarvelHeroEntity
 
-interface MarvelRepository {
-    suspend fun searchMarvelHeroes(
-        query: String,
-        page: Int
-    ): List<MarvelHeroModel>
+@Database(
+    entities = [MarvelHeroEntity::class],
+    version = 1,
+    exportSchema = false,
+)
+abstract class MarvelDatabase : RoomDatabase() {
 
-    fun getFavoriteMarvelHeroes(): Flow<List<MarvelHeroModel>>
-    suspend fun addFavoriteMarvelHero(marvelHero: MarvelHeroModel)
-    suspend fun removeFavoriteMarvelHero(marvelHeroId: Int)
-    suspend fun isFavoriteMarvelHero(marvelHeroId: Int): Boolean
+    abstract fun marvelHeroDao(): MarvelHeroDao
 }

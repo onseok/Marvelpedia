@@ -16,6 +16,7 @@
 package com.onseok.marvelpedia.data.network.response
 
 import com.onseok.marvelpedia.model.MarvelHeroModel
+import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -50,6 +51,7 @@ fun Character.asModel(): MarvelHeroModel {
             thumbnail.path,
             thumbnail.extension,
         ).joinToString(separator = "."),
+        addedAt = Clock.System.now().epochSeconds
     )
 }
 

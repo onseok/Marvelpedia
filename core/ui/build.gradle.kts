@@ -10,6 +10,8 @@ android {
 dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.resources)
+    implementation(projects.data.model)
+    implementation(projects.core.imageloading.api)
 
     implementation(libs.kotlin.stdlib)
 

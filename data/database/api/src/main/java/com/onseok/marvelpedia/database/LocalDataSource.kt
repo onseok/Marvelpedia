@@ -15,6 +15,12 @@
  */
 package com.onseok.marvelpedia.database
 
+import com.onseok.marvelpedia.model.MarvelHeroModel
+import kotlinx.coroutines.flow.Flow
+
 interface LocalDataSource {
-    // TODO Implement methods for local data operations
+    suspend fun addFavoriteMarvelHero(marvelHero: MarvelHeroModel)
+    suspend fun removeFavoriteMarvelHero(marvelHeroId: Int)
+    fun getFavoriteMarvelHeroes(): Flow<List<MarvelHeroModel>>
+    suspend fun isFavoriteMarvelHero(marvelHeroId: Int): Boolean
 }

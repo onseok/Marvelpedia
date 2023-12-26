@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

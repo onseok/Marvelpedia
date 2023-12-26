@@ -16,12 +16,41 @@
 package com.onseok.marvelpedia.feature.favorite
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.onseok.marvelpedia.common.IoDispatcher
+import com.onseok.marvelpedia.data.repository.MarvelRepository
+import com.onseok.marvelpedia.model.MarvelHeroModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
+    private val repository: MarvelRepository,
     @IoDispatcher ioDispatcher: CoroutineDispatcher,
-) : ViewModel()
+) : ViewModel() {
+
+    private val _marvelHeroes = MutableStateFlow<List<MarvelHeroModel>>(emptyList())
+    val marvelHeroes: StateFlow<List<MarvelHeroModel>> = _marvelHeroes
+
+    init {
+        repository.getFavoriteMarvelHeroes()
+            .onEach { marvelHeroes ->
+                _marvelHeroes.emit(marvelHeroes.sortedBy { it.addedAt })
+            }
+            .flowOn(ioDispatcher)
+            .launchIn(viewModelScope)
+    }
+
+    fun onDeleteFavoriteMarvelItem(marvelHeroModel: MarvelHeroModel) {
+        viewModelScope.launch {
+            repository.removeFavoriteMarvelHero(marvelHeroModel.id)
+        }
+    }
+}
